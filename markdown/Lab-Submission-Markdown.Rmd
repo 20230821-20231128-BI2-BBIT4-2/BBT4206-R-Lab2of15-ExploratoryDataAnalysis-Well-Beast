@@ -16,19 +16,20 @@ editor_options:
 # Student Details
 
 +---------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Student ID Numbers and Names of Group Members** | *\<list one student name, class group (just the letter; A, B, or C), and ID per line, e.g., 123456 - A - John Leposo; you should be between 2 and 5 members per group\>* |
+| **Student ID Numbers and Names of Group Members** | *\<list one Student name, class group (just the letter; A, B, or C), and ID per line, e.g., 123456 - A - John Leposo; you should be between 2 and 5 members per group\>* |
 |                                                   |                                                                                                                                                                          |
-|                                                   | 1.  ID - Class Group - Name                                                                                                                                              |
+|                                                   | 1.  128998 - B - Crispus Nzano                                                                                                                                            |
 |                                                   |                                                                                                                                                                          |
-|                                                   | 2.  ID - Class Group - Name                                                                                                                                              |
+|                                                   | 2.  134100 - B - Timothy Obosi                                                                                                                                             |
 |                                                   |                                                                                                                                                                          |
-|                                                   | 3.  ID - Class Group - Name                                                                                                                                              |
+|                                                   | 3.  134092 - B - Alison Kuria                                                                                                                                                                                                                                                 |
 |                                                   |                                                                                                                                                                          |
-|                                                   | 4.  ID - Class Group - Name                                                                                                                                              |
-|                                                   |                                                                                                                                                                          |
-|                                                   | 5.  ID - Class Group - Name                                                                                                                                              |
+|                                                   | 4.  135269 - B - Clifford Kipchumba                                                                                                                          |
+|                                                   |                                                                                                                                                      |
+|                                                   | 5.  112826 - B - Matu Ngatia                                                                                                                          |
+|                                                   |                                                  
 +---------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **GitHub Classroom Group Name**                   | *\<specify the name of the team you created on GitHub classroom\>*                                                                                                       |
+| **GitHub Classroom Group Name**                   | Team Kubwa                                                                                                       |
 +---------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **Course Code**                                   | BBT4206                                                                                                                                                                  |
 +---------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -98,9 +99,9 @@ knitr::opts_chunk$set(
 The 20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset is then loaded. The dataset and its metadata are available here: <https://drive.google.com/drive/folders/1-BGEhfOwquXF6KKXwcvrx7WuZXuqmW9q?usp=sharing>
 
 ```{r Load Dataset}
-student_performance_dataset <-
+Student_dataset <-
   readr::read_csv(
-                  "../data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV", # nolint
+                  "./data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset - dataset.CSV", # nolint
                   col_types =
                   readr::cols(
                               class_group =
@@ -239,33 +240,48 @@ student_performance_dataset <-
 We then display the number of observations and number of variables. We have 101 observations and 100 variables to work with.
 
 ```{r Your Fourth Code Chunk}
-dim(student_performance_dataset)
+dim(Student_dataset)
 ```
 
-Next, we display the quartiles for each numeric variable[*... think of this process as **"storytelling using the data."** Tell us what is happening; tell us what you are discovering as you proceed with the markdown; walk us through your code step-by-step (a code walkthrough).*]{#highlight style="color: blue"}
+Next, we display the quartiles for each numeric variable[*... this is the process of **"storytelling using the data."** The goal is to analyse the Student dataset and try to find a relation between the various variables and the exam mark( which variables or combination or variables affect the exam marks the most).*]{#highlight style="color: blue"}
 
 ```{r Your Fifth Code Chunk}
-summary(student_performance_dataset)
+summary(Student_dataset)
 ```
 
-# \<You can Provide Another Appropriate Title Here if you wish\>
+# \<Measure of Mode of Writing down important point, and take quizzes and uses results\>
 
-Describe the code chunk here:
+First we checked to see if the variable writing down important points, and take quizzes and use results were numeric. Next we measured the freqency of the outputs for this variable.
+
+We found that a majority of the Students specifically 37.62% frequency of 4 and 37.62% frequency of 5 wrote down important notes and took quizzes and used results.
 
 ```{r Your Sixth Code Chunk}
-# Fill this with R related code that will be executed when the R markdown file
+sapply(Student_dataset, class) #For getting the data type.
+
+Student_dataset_write_down_important_points_freq <- Student_dataset$write_down_important_points
+cbind(frequency = table(Student_dataset_write_down_important_points_freq),
+      percentage = prop.table(table(Student_dataset_write_down_important_points_freq)) * 100) #For getting frequency of writing down important points.
+
+Student_dataset_take_quizzes_and_use_results_freq <- Student_dataset$take_quizzes_and_use_results
+cbind(frequency = table(Student_dataset_take_quizzes_and_use_results_freq),
+      percentage = prop.table(table(Student_dataset_take_quizzes_and_use_results_freq)) * 100) #For getting frequency of take quizzes and use results.
+
+
+
 ```
 
-## \<You Can Have a Sub-Title Here if you wish\>
+## \<Measure of Standard Deviation for Take quizzes and use results and Write down important points \>
+The Standard Deviation of Write down important points(1.077676) is more than that of Take quizzes and use results(1.075377)
 
 ```{r Your Seventh Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
+sapply(Student_dataset[,12:14], sd)
 ```
 
-## \<You Can Have Another Sub-Title Here if you wish\>
-
+## \<Measure the skewness of each variable\>
+We proceeded to measure the skewness of the variables we chose to use for this dataset namely Write down important points, Reorganise course outline and Take quizzes and use results. Take quizzes and use results as well as Write down important points is negatively (left skew), whereas Recognise course outline is Symmetrical.
 ```{r Your Eighth Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
+sapply(Student_dataset[, 12:14],  skewness, type = 2)
+
 ```
 
 **etc.** as per the lab submission requirements. Be neat and communicate in a clear and logical manner.
